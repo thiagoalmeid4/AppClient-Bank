@@ -31,7 +31,7 @@ public class ServiceRequest {
 
     public String getToken(AuthModel auth) {
         var response = appRequest.getToken(auth);
-        if (response.getStatus() != 200 || response.getStatus() != 201) {
+        if (response.getStatus() != 200) {
             return returnError(response.getBody());
         } else {
             TokenModel tokenModel = ConvertJson.execute(response.getBody(), TokenModel.class);
@@ -53,7 +53,7 @@ public class ServiceRequest {
         var response = appRequest.getAccountInfo(Cache.get("token").toString());
         var result = new HashMap<String, Object>();
         result.put("status", response.getStatus());
-        if (response.getStatus() != 200 || response.getStatus() != 201) {
+        if (response.getStatus() != 200) {
             result.put("erro", returnError(response.getBody()));
         } else {
             AccountInfo accountInfo = ConvertJson.execute(response.getBody(), AccountInfo.class);
@@ -88,7 +88,7 @@ public class ServiceRequest {
         var response = appRequest.transactionPix(Cache.get("token").toString(), pixModel);
         var result = new HashMap<String, Object>();
         result.put("status", response.getStatus());
-        if (response.getStatus() != 200 || response.getStatus() != 201) {
+        if (response.getStatus() != 200) {
             result.put("erro", returnError(response.getBody()));
         } else {
             var transaction = ConvertJson.execute(response.getBody(), TransactionResponseModel.class);
@@ -104,7 +104,7 @@ public class ServiceRequest {
         if (response.getStatus() != 200) {
             result.put("erro", returnError(response.getBody()));
         } else {
-            var history = ConvertJson.execute(response.getBody(), TransactionHistoryModel.class);
+            var history = ConvertJson.execute(response.getBody(), TransactionHistoryModel[].class);
             result.put("historico", history);
         }
         return result;

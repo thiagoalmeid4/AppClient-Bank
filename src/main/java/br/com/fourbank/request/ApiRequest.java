@@ -94,7 +94,7 @@ public class ApiRequest {
         var apiResponse = new ApiResponse();
 
         request = HttpRequest.newBuilder()
-                .POST(HttpRequest.BodyPublishers.ofString(""))
+                .GET()
                 .uri(URI.create(url.concat("/account-info")))
                 .setHeader("Content-Type", "application/json")
                 .setHeader("Authorization", token)

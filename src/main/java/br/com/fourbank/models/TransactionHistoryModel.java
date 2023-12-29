@@ -4,51 +4,31 @@ import java.math.BigDecimal;
 
 public class TransactionHistoryModel {
 
-    private long idTransaction;
-
-    private String customerNameOrigin;
-
-    private String customerNameDestiny;
-
+    private String flag;
+    
     private String dateTransaction;
-
-    private String typeTransaction;
-
+    
     private BigDecimal value;
+    
+    private String originDestiny;
+    
+    private String typeTransaction;
 
     public TransactionHistoryModel() {}
 
-    public TransactionHistoryModel(long idTransaction, String customerNameOrigin, String customerNameDestiny, String dateTransaction, String typeTransaction, BigDecimal value) {
-        this.idTransaction = idTransaction;
-        this.customerNameOrigin = customerNameOrigin;
-        this.customerNameDestiny = customerNameDestiny;
+    public TransactionHistoryModel(String flag, String dateTransaction, BigDecimal value, String originDestiny) {
+        this.flag = flag;
         this.dateTransaction = dateTransaction;
-        this.typeTransaction = typeTransaction;
         this.value = value;
+        this.originDestiny = originDestiny;
     }
 
-    public long getIdTransaction() {
-        return idTransaction;
+    public String getFlag() {
+        return flag;
     }
 
-    public void setIdTransaction(long idTransaction) {
-        this.idTransaction = idTransaction;
-    }
-
-    public String getCustomerNameOrigin() {
-        return customerNameOrigin;
-    }
-
-    public void setCustomerNameOrigin(String customerNameOrigin) {
-        this.customerNameOrigin = customerNameOrigin;
-    }
-
-    public String getCustomerNameDestiny() {
-        return customerNameDestiny;
-    }
-
-    public void setCustomerNameDestiny(String customerNameDestiny) {
-        this.customerNameDestiny = customerNameDestiny;
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 
     public String getDateTransaction() {
@@ -59,20 +39,28 @@ public class TransactionHistoryModel {
         this.dateTransaction = dateTransaction;
     }
 
-    public String getTypeTransaction() {
-        return typeTransaction;
-    }
-
-    public void setTypeTransaction(String typeTransaction) {
-        this.typeTransaction = typeTransaction;
-    }
-
     public BigDecimal getValue() {
         return value;
     }
 
     public void setValue(BigDecimal value) {
         this.value = value;
+    }
+
+    public String getOriginDestiny() {
+        return originDestiny;
+    }
+
+    public void setOriginDestiny(String originDestiny) {
+        this.originDestiny = originDestiny;
+    }
+
+    public String getTypeTransaction() {
+        return typeTransaction;
+    }
+
+    public void setTypeTransaction(String typeTransaction) {
+        this.typeTransaction = typeTransaction;
     }
 
 }

@@ -4,28 +4,28 @@ import java.math.BigDecimal;
 
 public class TransactionPixModel {
     
-    private BigDecimal value;
+    private Double value;
     
-    private String key;
+    private String pixKey;
 
     public TransactionPixModel() {}
 
-    public TransactionPixModel(BigDecimal value, String key) {
+    public TransactionPixModel(Double value, String key) {
         this.value = value;
-        this.key = key;
+        this.pixKey = key;
     }
 
-    public BigDecimal getValue() {
+    public Double getValue() {
         return value;
     }
-    public void setValue(BigDecimal value) {
+    public void setValue(Double value) {
         this.value = value;
     }
     public String getKey() {
-        return key;
+        return pixKey;
     }
     public void setKey(String key) {
-        this.key = key;
+        this.pixKey = key;
     }
     
 }

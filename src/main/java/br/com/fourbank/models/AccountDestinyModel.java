@@ -2,7 +2,7 @@ package br.com.fourbank.models;
 
 public class AccountDestinyModel {
     
-    private String name;
+    private String nameCustomer;
     
     private Long idAccount;
 
@@ -11,16 +11,16 @@ public class AccountDestinyModel {
     public AccountDestinyModel() {}
 
     public AccountDestinyModel(String name, Long idAccount, Long idCostumer) {
-        this.name = name;
+        this.nameCustomer = name;
         this.idAccount = idAccount;
         this.idCostumer = idCostumer;
     }
 
     public String getName() {
-        return name;
+        return nameCustomer;
     }
     public void setName(String name) {
-        this.name = name;
+        this.nameCustomer = name;
     }
     public Long getIdAccount() {
         return idAccount;
