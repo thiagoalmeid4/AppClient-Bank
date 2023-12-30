@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 
 import br.com.fourbank.models.CustomerModel;
 import br.com.fourbank.models.TransactionPixModel;
+import br.com.fourbank.models.TransactionTedModel;
 
 public class ApiRequest {
 
@@ -178,6 +179,68 @@ public class ApiRequest {
         request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(url.concat("/transaction/history")))
+                .setHeader("Content-Type", "application/json")
+                .setHeader("Authorization", token)
+                .build();
+        try {
+            var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            apiResponse.setBody(response.body());
+            apiResponse.setStatus(response.statusCode());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return apiResponse;
+    }
+
+    public ApiResponse getCheckToken(String token) {
+
+        var apiResponse = new ApiResponse();
+
+        request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create(url.concat("/check-token")))
+                .setHeader("Content-Type", "application/json")
+                .setHeader("Authorization", token)
+                .build();
+        try {
+            var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            apiResponse.setBody(response.body());
+            apiResponse.setStatus(response.statusCode());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return apiResponse;
+    }
+
+    public ApiResponse transactionTed(String token, TransactionTedModel tedModel) {
+
+        var apiResponse = new ApiResponse();
+
+        var requestBody = gson.toJson(tedModel);
+
+        request = HttpRequest.newBuilder()
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .uri(URI.create(url.concat("/transaction/ted")))
+                .setHeader("Content-Type", "application/json")
+                .setHeader("Authorization", token)
+                .build();
+        try {
+            var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            apiResponse.setBody(response.body());
+            apiResponse.setStatus(response.statusCode());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return apiResponse;
+    }
+
+    public ApiResponse getPixKeys(String token) {
+
+        var apiResponse = new ApiResponse();
+
+        request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create(url.concat("/my-pix-keys")))
                 .setHeader("Content-Type", "application/json")
                 .setHeader("Authorization", token)
                 .build();

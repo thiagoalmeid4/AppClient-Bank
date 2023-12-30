@@ -8,10 +8,12 @@ import br.com.fourbank.models.AccountInfo;
 import br.com.fourbank.models.AuthModel;
 import br.com.fourbank.models.CustomerModel;
 import br.com.fourbank.models.ErrModel;
+import br.com.fourbank.models.PixKeysModel;
 import br.com.fourbank.models.TokenModel;
 import br.com.fourbank.models.TransactionHistoryModel;
 import br.com.fourbank.models.TransactionPixModel;
 import br.com.fourbank.models.TransactionResponseModel;
+import br.com.fourbank.models.TransactionTedModel;
 import br.com.fourbank.request.ApiRequest;
 import br.com.fourbank.utils.ConvertJson;
 import cache.io.Cache;
@@ -106,6 +108,32 @@ public class ServiceRequest {
         } else {
             var history = ConvertJson.execute(response.getBody(), TransactionHistoryModel[].class);
             result.put("historico", history);
+        }
+        return result;
+    }
+
+    public Map<String, Object> getPixKeys() throws Exception {
+        var response = appRequest.getPixKeys(Cache.get("token").toString());
+        var result = new HashMap<String, Object>();
+        result.put("status", response.getStatus());
+        if (response.getStatus() != 200) {
+            result.put("erro", returnError(response.getBody()));
+        } else {
+            var keys = ConvertJson.execute(response.getBody(), PixKeysModel[].class);
+            result.put("chaves-pix", keys);
+        }
+        return result;
+    }
+
+    public Map<String, Object> transactionByTed(TransactionTedModel tedModel) throws Exception {
+        var response = appRequest.transactionTed(Cache.get("token").toString(), tedModel);
+        var result = new HashMap<String, Object>();
+        result.put("status", response.getStatus());
+        if (response.getStatus() != 200) {
+            result.put("erro", returnError(response.getBody()));
+        } else {
+            var transaction = ConvertJson.execute(response.getBody(), TransactionResponseModel.class);
+            result.put("transacao", transaction);
         }
         return result;
     }

@@ -21,7 +21,7 @@ import java.util.Date;
  */
 public class PdfUtils {
 
-    public static void gerarEVisualizarPDF(String dataHora, String quemPagou, String quemRecebeu, String valor) throws ParseException {
+    public static void gerarEVisualizarPDF(String dataHora, String quemPagou, String quemRecebeu, String valor, String type, Long id) throws ParseException {
         try {
             // Criar um novo documento PDF
             PdfDocument pdf = new PdfDocument(new PdfWriter("arquivo.pdf"));
@@ -30,12 +30,16 @@ public class PdfUtils {
             Date dataHoraFormatada = parsearDataHora(dataHora);
             SimpleDateFormat formatoSaida = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             // Adicionar os dados ao PDF
-            document.add(new Paragraph("-------------FOURBANK----------------"));
+            document.add(new Paragraph("------------------FOURBANK------------------"));
             document.add(new Paragraph("Data e Hora: " + formatoSaida.format(dataHoraFormatada)));
-            document.add(new Paragraph("-------------------------------"));
+            document.add(new Paragraph("_________________________________"));
+            document.add(new Paragraph("ID da transação: "+id));
+            document.add(new Paragraph("_________________________________"));
             document.add(new Paragraph("Quem Pagou: " + quemPagou));
             document.add(new Paragraph("Quem Recebeu: " + quemRecebeu));
-            document.add(new Paragraph("-------------------------------"));
+            document.add(new Paragraph("_________________________________"));
+            document.add(new Paragraph("Tipo de transação: "+type));
+            document.add(new Paragraph("_________________________________"));
             document.add(new Paragraph("Valor: R$" + valor));
 
             // Fechar o documento

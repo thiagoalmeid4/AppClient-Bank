@@ -1,5 +1,6 @@
 package br.com.fourbank.frames;
 
+import br.com.fourbank.models.PixKeysModel;
 import br.com.fourbank.models.TransactionHistoryModel;
 import br.com.fourbank.services.ServiceRequest;
 import br.com.fourbank.utils.SessionExpiry;
@@ -8,6 +9,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -25,18 +27,17 @@ public class MenuPixFrame extends javax.swing.JFrame {
         initComponents();
         initComponentsRequest();
     }
-    
-    public void initComponentsRequest() throws Exception{
+
+    public void initComponentsRequest() throws Exception {
         initTablePix();
+        initTableKeys();
     }
 
     private void initTablePix() throws Exception {
         Cache.clean("historico");
-        
+
         var result = serviceRequest.getHistory();
-        
-        SessionExpiry.execute(Integer.parseInt(result.get("status").toString()), this);
-        
+
         String[] columns = new String[this.tablePix.getColumnCount()];
         for (int i = 0; i != columns.length; i++) {
             columns[i] = this.tablePix.getColumnName(i);
@@ -101,6 +102,38 @@ public class MenuPixFrame extends javax.swing.JFrame {
         });
     }
 
+    private void initTableKeys() throws Exception {
+        var result = serviceRequest.getPixKeys();
+        String[] columns = new String[this.tableKeys.getColumnCount()];
+        for (int i = 0; i != columns.length; i++) {
+            columns[i] = this.tableKeys.getColumnName(i);
+        }
+
+        var tableModel = new DefaultTableModel(columns, 0) {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+
+            @Override
+            public Class<?> getColumnClass(int column) {
+                return getValueAt(0, column).getClass();
+            }
+        };
+        
+        if (Integer.parseInt(result.get("status").toString()) == 200) {
+            PixKeysModel[] keys = (PixKeysModel[]) result.get("chaves-pix");
+            for(var p: keys){
+                Object[] row = {p.getTypePixKey(),p.getPixKey()};
+                tableModel.addRow(row);
+            }
+        }
+        
+        tableKeys.setModel(tableModel);
+        
+    }
+
     private void setColumnWidths(JTable table, int[] widths) {
         TableColumnModel columnModel = table.getColumnModel();
         for (int i = 0; i < widths.length && i < columnModel.getColumnCount(); i++) {
@@ -113,6 +146,16 @@ public class MenuPixFrame extends javax.swing.JFrame {
         renderer.setHorizontalAlignment(alignment);
 
         table.getColumnModel().getColumn(column).setCellRenderer(renderer);
+    }
+
+    private boolean session() throws Exception {
+        if (!SessionExpiry.execute()) {
+            JOptionPane.showMessageDialog(null, "Sessão Expirada!", null, JOptionPane.INFORMATION_MESSAGE);
+            new LoginFrame().setVisible(true);
+            this.dispose();
+            return false;
+        }
+        return true;
     }
 
     @SuppressWarnings("unchecked")
@@ -180,7 +223,7 @@ public class MenuPixFrame extends javax.swing.JFrame {
         jPanel1.add(jPanel2);
         jPanel2.setBounds(0, 0, 720, 70);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\thiag\\OneDrive\\Imagens\\bradesco_gradiente.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bradesco_gradiente.png"))); // NOI18N
         jPanel1.add(jLabel1);
         jLabel1.setBounds(0, 0, 720, 70);
 
@@ -188,7 +231,7 @@ public class MenuPixFrame extends javax.swing.JFrame {
         jToolBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jButton1.setForeground(new java.awt.Color(223, 84, 84));
-        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\thiag\\Downloads\\email-35.png")); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/email-35.png"))); // NOI18N
         jButton1.setText("EMAIL");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -198,17 +241,17 @@ public class MenuPixFrame extends javax.swing.JFrame {
         jToolBar1.add(jButton1);
 
         jButton2.setForeground(new java.awt.Color(223, 84, 84));
-        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\thiag\\Downloads\\icons8-celular-35.png")); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-celular-35.png"))); // NOI18N
         jButton2.setText("CELULAR");
         jToolBar1.add(jButton2);
 
         jButton3.setForeground(new java.awt.Color(223, 84, 84));
-        jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\thiag\\Downloads\\icons8-identidade-35.png")); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-identidade-35.png"))); // NOI18N
         jButton3.setText("CPF");
         jToolBar1.add(jButton3);
 
         jButton4.setForeground(new java.awt.Color(223, 84, 84));
-        jButton4.setIcon(new javax.swing.ImageIcon("C:\\Users\\thiag\\Downloads\\icons8-embaralhar-35.png")); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-embaralhar-35.png"))); // NOI18N
         jButton4.setText("ALEATÓRIA");
         jToolBar1.add(jButton4);
 
@@ -228,6 +271,7 @@ public class MenuPixFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tableKeys.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tableKeys.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tableKeys);
         if (tableKeys.getColumnModel().getColumnCount() > 0) {
@@ -267,7 +311,7 @@ public class MenuPixFrame extends javax.swing.JFrame {
         }
 
         jButton5.setForeground(new java.awt.Color(223, 84, 84));
-        jButton5.setIcon(new javax.swing.ImageIcon("C:\\Users\\thiag\\Downloads\\icons8-chave-35.png")); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-chave-35.png"))); // NOI18N
         jButton5.setText("CADASTRAR CHAVE");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -332,7 +376,9 @@ public class MenuPixFrame extends javax.swing.JFrame {
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         try {
-            initComponentsRequest();
+            if (session()) {
+                initComponentsRequest();
+            }
         } catch (Exception ex) {
             Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -340,19 +386,32 @@ public class MenuPixFrame extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         try {
-            new HomeFrame().setVisible(true);
-            this.dispose();
+            if (session()) {
+                new HomeFrame().setVisible(true);
+                this.dispose();
+            }
         } catch (Exception ex) {
             Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        new SaveKeyFrame().setVisible(true);
+        try {
+            session();
+            new SaveKeyFrame().setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       new PixEmail().setVisible(true);
+        try {
+            if (session()) {
+                new PixEmail().setVisible(true);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

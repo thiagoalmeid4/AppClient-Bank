@@ -3,6 +3,7 @@ package br.com.fourbank.frames;
 
 import br.com.fourbank.models.AuthModel;
 import br.com.fourbank.services.ServiceRequest;
+import cache.io.Cache;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -138,7 +139,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jPanel1.add(jPanel2);
         jPanel2.setBounds(0, 0, 750, 520);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\thiag\\OneDrive\\Imagens\\bradesco_gradiente.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bradesco_gradiente.png"))); // NOI18N
         jPanel1.add(jLabel1);
         jLabel1.setBounds(0, 0, 750, 520);
 

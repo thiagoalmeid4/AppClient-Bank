@@ -1,9 +1,11 @@
 package br.com.fourbank.frames;
 
 import br.com.fourbank.services.ServiceRequest;
+import br.com.fourbank.utils.SessionExpiry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.eclipse.persistence.sessions.Session;
 
 /**
  *
@@ -11,8 +13,8 @@ import javax.swing.JOptionPane;
  */
 public class SaveKeyFrame extends javax.swing.JFrame {
 
-     private ServiceRequest serviceRequest = new ServiceRequest();
-    
+    private ServiceRequest serviceRequest = new ServiceRequest();
+
     public SaveKeyFrame() {
         initComponents();
     }
@@ -28,7 +30,6 @@ public class SaveKeyFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(400, 300));
         setResizable(false);
 
         jPanel1.setLayout(null);
@@ -72,7 +73,7 @@ public class SaveKeyFrame extends javax.swing.JFrame {
         jPanel1.add(jPanel2);
         jPanel2.setBounds(0, 0, 400, 300);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\thiag\\OneDrive\\Imagens\\bradesco_gradiente.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bradesco_gradiente.png"))); // NOI18N
         jPanel1.add(jLabel1);
         jLabel1.setBounds(0, 0, 400, 300);
 
@@ -92,12 +93,17 @@ public class SaveKeyFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-         try {
-             var result = serviceRequest.savePixKey(typesKey.getSelectedItem().toString());
-             JOptionPane.showMessageDialog(null, result, result, JOptionPane.INFORMATION_MESSAGE);
-         } catch (Exception ex) {
-             Logger.getLogger(SaveKeyFrame.class.getName()).log(Level.SEVERE, null, ex);
-         }
+        try {
+            if (SessionExpiry.execute()) {
+                var result = serviceRequest.savePixKey(typesKey.getSelectedItem().toString());
+                JOptionPane.showMessageDialog(null, result, result, JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null, "Sessão Expirada!", null, JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(SaveKeyFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {

@@ -4,6 +4,7 @@ import br.com.fourbank.models.AccountInfo;
 import br.com.fourbank.models.TransactionHistoryModel;
 import br.com.fourbank.services.ServiceRequest;
 import br.com.fourbank.utils.SessionExpiry;
+import cache.io.Cache;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.awt.Component;
@@ -12,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -34,23 +36,23 @@ public class HomeFrame extends javax.swing.JFrame {
         initComponentsRequests();
     }
 
-    private void initComponentsRequests() throws Exception{
+    private void initComponentsRequests() throws Exception {
         initInfoAccount();
         initTableTransactionHistory();
         initDate();
+
     }
 
     private void initInfoAccount() throws Exception {
 
         var result = serviceRequest.getInfoAccount();
-        
-        SessionExpiry.execute(Integer.parseInt(result.get("status").toString()), this);
-        
+
         if (Integer.parseInt(result.get("status").toString()) == 200) {
             AccountInfo accountInfo = (AccountInfo) result.get("infoConta");
             fieldAgency.setText(accountInfo.getAccountAgency());
             fieldAccount.setText(addLastChar(accountInfo.getAccountNumber(), '-'));
             fieldBalance.setText("R$ " + accountInfo.getValue().toString());
+            fieldNameCustomer.setText(accountInfo.getCustomerName());
         } else {
             System.out.println(result.get("erro").toString());
         }
@@ -77,8 +79,6 @@ public class HomeFrame extends javax.swing.JFrame {
         };
 
         var result = serviceRequest.getHistory();
-        
-        SessionExpiry.execute(Integer.parseInt(result.get("status").toString()), this);
 
         if (Integer.parseInt(result.get("status").toString()) == 200) {
             TransactionHistoryModel[] data = (TransactionHistoryModel[]) result.get("historico");
@@ -163,6 +163,16 @@ public class HomeFrame extends javax.swing.JFrame {
         }
     }
 
+    private boolean session() throws Exception {
+        if (!SessionExpiry.execute()) {
+            JOptionPane.showMessageDialog(null, "Sessão Expirada!", null, JOptionPane.INFORMATION_MESSAGE);
+            new LoginFrame().setVisible(true);
+            this.dispose();
+            return false;
+        }
+        return true;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -213,9 +223,14 @@ public class HomeFrame extends javax.swing.JFrame {
         jPanel4.setOpaque(false);
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\thiag\\Downloads\\icons8-sair-30.png")); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-sair-30.png"))); // NOI18N
         jLabel5.setText("Sair");
         jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -240,7 +255,7 @@ public class HomeFrame extends javax.swing.JFrame {
         fieldBalance.setText("{saldo}");
 
         fieldDate.setBackground(new java.awt.Color(255, 255, 255));
-        fieldDate.setFont(new java.awt.Font("Arial Black", 1, 10)); // NOI18N
+        fieldDate.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         fieldDate.setForeground(new java.awt.Color(232, 232, 232));
         fieldDate.setText("{data}");
 
@@ -248,7 +263,7 @@ public class HomeFrame extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(236, 236, 236));
         jLabel9.setText("FourBank");
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\thiag\\Downloads\\icons8-reinicialização-25.png")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-reinicialização-25.png"))); // NOI18N
         jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -319,7 +334,7 @@ public class HomeFrame extends javax.swing.JFrame {
         jPanel1.add(jPanel3);
         jPanel3.setBounds(0, 0, 720, 70);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\thiag\\OneDrive\\Imagens\\bradesco_gradiente.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bradesco_gradiente.png"))); // NOI18N
         jPanel1.add(jLabel1);
         jLabel1.setBounds(0, 0, 720, 70);
 
@@ -377,14 +392,14 @@ public class HomeFrame extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
         );
 
-        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\thiag\\Downloads\\pix-35.png")); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pix-35.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\thiag\\Downloads\\icons8-transferir-35.png")); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-transferir-35.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -417,7 +432,9 @@ public class HomeFrame extends javax.swing.JFrame {
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         try {
-            initComponentsRequests();
+            if (session()) {
+                initComponentsRequests();
+            }
         } catch (Exception ex) {
             Logger.getLogger(HomeFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -425,16 +442,20 @@ public class HomeFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            new MenuPixFrame().setVisible(true);
-            this.dispose();
+            if (session()) {
+                new MenuPixFrame().setVisible(true);
+                this.dispose();
+            }
         } catch (Exception ex) {
             Logger.getLogger(HomeFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        new LoginFrame().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel5MouseClicked
+
     public static void main(String args[]) {
         try {
             /* Set the Nimbus look and feel */
@@ -459,6 +480,7 @@ public class HomeFrame extends javax.swing.JFrame {
             Logger.getLogger(HomeFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel fieldAccount;

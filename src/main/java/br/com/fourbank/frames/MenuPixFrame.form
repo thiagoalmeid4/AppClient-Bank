@@ -141,7 +141,7 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\thiag\OneDrive\Imagens\bradesco_gradiente.png"/>
+              <Image iconType="3" name="/img/bradesco_gradiente.png"/>
             </Property>
           </Properties>
           <Constraints>
@@ -168,7 +168,7 @@
               <Color blue="54" green="54" red="df" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\thiag\Downloads\email-35.png"/>
+              <Image iconType="3" name="/img/email-35.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="EMAIL"/>
           </Properties>
@@ -182,7 +182,7 @@
               <Color blue="54" green="54" red="df" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\thiag\Downloads\icons8-celular-35.png"/>
+              <Image iconType="3" name="/img/icons8-celular-35.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="CELULAR"/>
           </Properties>
@@ -193,7 +193,7 @@
               <Color blue="54" green="54" red="df" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\thiag\Downloads\icons8-identidade-35.png"/>
+              <Image iconType="3" name="/img/icons8-identidade-35.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="CPF"/>
           </Properties>
@@ -204,7 +204,7 @@
               <Color blue="54" green="54" red="df" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\thiag\Downloads\icons8-embaralhar-35.png"/>
+              <Image iconType="3" name="/img/icons8-embaralhar-35.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="ALEAT&#xd3;RIA"/>
           </Properties>
@@ -240,6 +240,7 @@
                 </Column>
               </TableColumnModel>
             </Property>
+            <Property name="selectionMode" type="int" value="0"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
@@ -301,7 +302,7 @@
           <Color blue="54" green="54" red="df" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\thiag\Downloads\icons8-chave-35.png"/>
+          <Image iconType="3" name="/img/icons8-chave-35.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="CADASTRAR CHAVE"/>
       </Properties>

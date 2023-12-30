@@ -59,7 +59,7 @@ public class PixEmail extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("EMAIL");
 
-        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\thiag\\Downloads\\icons8-pesquisar-35.png")); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-pesquisar-35.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -134,7 +134,7 @@ public class PixEmail extends javax.swing.JFrame {
         jPanel1.add(jPanel2);
         jPanel2.setBounds(0, 0, 400, 300);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\thiag\\OneDrive\\Imagens\\bradesco_gradiente.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bradesco_gradiente.png"))); // NOI18N
         jPanel1.add(jLabel1);
         jLabel1.setBounds(0, 0, 400, 300);
 
@@ -153,39 +153,55 @@ public class PixEmail extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private boolean session() throws Exception {
+        if (!SessionExpiry.execute()) {
+            JOptionPane.showMessageDialog(null, "Sessão Expirada!", null, JOptionPane.INFORMATION_MESSAGE);
+            new LoginFrame().setVisible(true);
+            this.dispose();
+            return false;
+        }
+        return true;
+    }
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            var result = serviceRequest.getAccountByPix(fieldKey.getText());
-            SessionExpiry.execute(Integer.parseInt(result.get("status").toString()), this);
-            if (Integer.parseInt(result.get("status").toString()) != 200) {
-                JOptionPane.showMessageDialog(null, result.get("erro"), null, JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                AccountDestinyModel account = (AccountDestinyModel) result.get("contaDestino");
-                fieldDestiny.setText(account.getName());
+            if (session()) {
+                var result = serviceRequest.getAccountByPix(fieldKey.getText());
+                if (Integer.parseInt(result.get("status").toString()) != 200) {
+                    JOptionPane.showMessageDialog(null, result.get("erro"), null, JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    AccountDestinyModel account = (AccountDestinyModel) result.get("contaDestino");
+                    fieldDestiny.setText(account.getName());
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(PixEmail.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            String key = fieldKey.getText();
-            var pixTransaction = new TransactionPixModel(new BigDecimal(fieldValue.getText()).doubleValue(),
-                    key);
-            var result = serviceRequest.transactionByPix(pixTransaction);
-            SessionExpiry.execute(Integer.parseInt(result.get("status").toString()), this);
-            if (Integer.parseInt(result.get("status").toString()) != 200) {
-                JOptionPane.showMessageDialog(null, result.get("erro"), null, JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                TransactionResponseModel transacao = (TransactionResponseModel) result.get("transacao");
-                PdfUtils.gerarEVisualizarPDF(transacao.getDateTransaction(), transacao.getCustomerNameOrigin(),
-                        transacao.getCustomerNameDestiny(), transacao.getValue().toString());
-                this.dispose();
+            if (session()) {
+                String key = fieldKey.getText();
+                var pixTransaction = new TransactionPixModel(new BigDecimal(fieldValue.getText()).doubleValue(),
+                        key);
+                var result = serviceRequest.transactionByPix(pixTransaction);
+                if (Integer.parseInt(result.get("status").toString()) != 200) {
+                    JOptionPane.showMessageDialog(null, result.get("erro"), null, JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    TransactionResponseModel transacao = (TransactionResponseModel) result.get("transacao");
+                    PdfUtils.gerarEVisualizarPDF(transacao.getDateTransaction(), transacao.getCustomerNameOrigin(),
+                            transacao.getCustomerNameDestiny(), transacao.getValue().toString(),
+                            transacao.getTypeTransaction(),transacao.getIdTransaction());
+                    this.dispose();
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(PixEmail.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -202,16 +218,24 @@ public class PixEmail extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PixEmail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PixEmail.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PixEmail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PixEmail.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PixEmail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PixEmail.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PixEmail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PixEmail.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

@@ -139,7 +139,7 @@
             <Component class="javax.swing.JButton" name="jButton1">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\thiag\Downloads\icons8-pesquisar-35.png"/>
+                  <Image iconType="3" name="/img/icons8-pesquisar-35.png"/>
                 </Property>
               </Properties>
               <Events>
@@ -188,7 +188,7 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\thiag\OneDrive\Imagens\bradesco_gradiente.png"/>
+              <Image iconType="3" name="/img/bradesco_gradiente.png"/>
             </Property>
           </Properties>
           <Constraints>
