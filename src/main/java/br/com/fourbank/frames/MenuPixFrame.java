@@ -191,8 +191,8 @@ public class MenuPixFrame extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(236, 236, 236));
         jLabel9.setText("FourBank");
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\thiag\\Downloads\\icons8-reinicialização-25.png")); // NOI18N
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-reinicialização-25.png"))); // NOI18N
+        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel2MouseClicked(evt);
@@ -228,7 +228,7 @@ public class MenuPixFrame extends javax.swing.JFrame {
         jLabel1.setBounds(0, 0, 720, 70);
 
         jToolBar1.setRollover(true);
-        jToolBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jToolBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jButton1.setForeground(new java.awt.Color(223, 84, 84));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/email-35.png"))); // NOI18N
