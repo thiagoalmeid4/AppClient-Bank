@@ -229,7 +229,7 @@ public class RegisterCustomerFrame extends javax.swing.JFrame {
         try {
             var customer = new CustomerModel();
             customer.setName(fieldName.getText().toUpperCase());
-            customer.setCpf(fieldCpf.getText().replaceAll(".","").replaceAll("-",""));
+            customer.setCpf(fieldCpf.getText().replace(".", "").replace("-", ""));
             customer.setDateOfBirth(fieldDate.getText());
             customer.setEmail(fieldEmail.getText());
             customer.setPhone(fieldPhone.getText());
