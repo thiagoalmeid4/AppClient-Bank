@@ -359,9 +359,7 @@ public class HomeFrame extends javax.swing.JFrame {
         });
         tableTransactions.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
         tableTransactions.setAutoscrolls(false);
-        tableTransactions.setColumnSelectionAllowed(true);
         tableTransactions.setDragEnabled(true);
-        tableTransactions.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tableTransactions.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tableTransactions.setShowGrid(true);
         tableTransactions.getTableHeader().setResizingAllowed(false);
@@ -400,6 +398,11 @@ public class HomeFrame extends javax.swing.JFrame {
         });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-transferir-35.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -455,6 +458,16 @@ public class HomeFrame extends javax.swing.JFrame {
         new LoginFrame().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            if(session()){
+                new TedFrame().setVisible(true);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(HomeFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void main(String args[]) {
         try {

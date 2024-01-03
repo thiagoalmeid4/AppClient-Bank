@@ -4,15 +4,20 @@
  */
 package br.com.fourbank.frames;
 
+import br.com.fourbank.models.CustomerModel;
+import br.com.fourbank.services.ServiceRequest;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author thazevedo
  */
 public class RegisterCustomerFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RegisterCustomerFrame
-     */
+    private ServiceRequest request = new ServiceRequest();
+
     public RegisterCustomerFrame() {
         initComponents();
     }
@@ -105,11 +110,21 @@ public class RegisterCustomerFrame extends javax.swing.JFrame {
         jLabel7.setText("Senha");
 
         jButton1.setText("Registrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel8.setBackground(new java.awt.Color(255, 255, 255));
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Já possui conta? Faça login");
         jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -205,9 +220,36 @@ public class RegisterCustomerFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldPasswordActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        new LoginFrame().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            var customer = new CustomerModel();
+            customer.setName(fieldName.getText().toUpperCase());
+            customer.setCpf(fieldCpf.getText().replaceAll(".","").replaceAll("-",""));
+            customer.setDateOfBirth(fieldDate.getText());
+            customer.setEmail(fieldEmail.getText());
+            customer.setPhone(fieldPhone.getText());
+            customer.setPassword(fieldPassword.getText());
+
+            var result = request.saveCustomer(customer);
+
+            if (Integer.parseInt(result.get("status").toString()) != 201) {
+                JOptionPane.showMessageDialog(null, result.get("erro").toString(), null, JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                new HomeFrame().setVisible(true);
+                this.dispose();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(RegisterCustomerFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

@@ -22,12 +22,17 @@ public class ServiceRequest {
 
     private final ApiRequest appRequest = new ApiRequest();
 
-    public String saveCustomer(CustomerModel customer) {
+    public Map<String, Object> saveCustomer(CustomerModel customer) throws Exception {
         var response = appRequest.saveCustomer(customer);
-        if (response.getStatus() != 200 || response.getStatus() != 201) {
-            return returnError(response.getBody());
+        var result = new HashMap<String, Object>();
+        result.put("status", response.getStatus());
+        if (response.getStatus() != 201) {
+            result.put("erro", returnError(response.getBody()));
+            return result;
         } else {
-            return "Cliente salvo!";
+            getToken(new AuthModel(customer.getCpf(), customer.getPassword()));
+            saveAccount();
+            return result;
         }
     }
 
@@ -44,7 +49,7 @@ public class ServiceRequest {
 
     public String saveAccount() throws Exception {
         var response = appRequest.saveAccount(Cache.get("token").toString());
-        if (response.getStatus() != 200 || response.getStatus() != 201) {
+        if (response.getStatus() != 201) {
             return returnError(response.getBody());
         } else {
             return "Sua conta foi criada com sucesso!";

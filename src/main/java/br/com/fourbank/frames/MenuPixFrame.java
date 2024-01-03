@@ -121,17 +121,17 @@ public class MenuPixFrame extends javax.swing.JFrame {
                 return getValueAt(0, column).getClass();
             }
         };
-        
+
         if (Integer.parseInt(result.get("status").toString()) == 200) {
             PixKeysModel[] keys = (PixKeysModel[]) result.get("chaves-pix");
-            for(var p: keys){
-                Object[] row = {p.getTypePixKey(),p.getPixKey()};
+            for (var p : keys) {
+                Object[] row = {p.getTypePixKey(), p.getPixKey()};
                 tableModel.addRow(row);
             }
         }
-        
+
         tableKeys.setModel(tableModel);
-        
+
     }
 
     private void setColumnWidths(JTable table, int[] widths) {
@@ -192,7 +192,7 @@ public class MenuPixFrame extends javax.swing.JFrame {
         jLabel9.setText("FourBank");
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-reinicialização-25.png"))); // NOI18N
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel2MouseClicked(evt);
@@ -243,16 +243,31 @@ public class MenuPixFrame extends javax.swing.JFrame {
         jButton2.setForeground(new java.awt.Color(223, 84, 84));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-celular-35.png"))); // NOI18N
         jButton2.setText("CELULAR");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton2);
 
         jButton3.setForeground(new java.awt.Color(223, 84, 84));
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-identidade-35.png"))); // NOI18N
         jButton3.setText("CPF");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton3);
 
         jButton4.setForeground(new java.awt.Color(223, 84, 84));
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-embaralhar-35.png"))); // NOI18N
         jButton4.setText("ALEATÓRIA");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton4);
 
         tableKeys.setModel(new javax.swing.table.DefaultTableModel(
@@ -397,8 +412,11 @@ public class MenuPixFrame extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         try {
-            session();
-            new SaveKeyFrame().setVisible(true);
+            if (session()) {
+                new SaveKeyFrame().setVisible(true);
+            } else {
+                this.dispose();
+            }
         } catch (Exception ex) {
             Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -408,11 +426,49 @@ public class MenuPixFrame extends javax.swing.JFrame {
         try {
             if (session()) {
                 new PixEmail().setVisible(true);
+            } else {
+                this.dispose();
             }
         } catch (Exception ex) {
             Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+            if (session()) {
+                new PixCpf().setVisible(true);
+            } else {
+                this.dispose();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            if (session()) {
+                new PixPhone().setVisible(true);
+            } else {
+                this.dispose();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        try {
+            if (session()) {
+                new PixRandom().setVisible(true);
+            } else {
+                this.dispose();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -428,16 +484,24 @@ public class MenuPixFrame extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuPixFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuPixFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuPixFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuPixFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuPixFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuPixFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuPixFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuPixFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -446,8 +510,10 @@ public class MenuPixFrame extends javax.swing.JFrame {
             public void run() {
                 try {
                     new MenuPixFrame().setVisible(true);
+
                 } catch (Exception ex) {
-                    Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MenuPixFrame.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

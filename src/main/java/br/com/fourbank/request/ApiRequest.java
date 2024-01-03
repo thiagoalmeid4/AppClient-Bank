@@ -15,6 +15,10 @@ import com.google.gson.Gson;
 import br.com.fourbank.models.CustomerModel;
 import br.com.fourbank.models.TransactionPixModel;
 import br.com.fourbank.models.TransactionTedModel;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ApiRequest {
 
@@ -134,6 +138,12 @@ public class ApiRequest {
 
         var apiResponse = new ApiResponse();
 
+        try {
+            key = URLEncoder.encode(key, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(ApiRequest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(url.concat("/find-account/pix?key=".concat(key))))
