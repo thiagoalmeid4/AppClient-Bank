@@ -7,13 +7,9 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import java.awt.Desktop;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 /**
  *
@@ -21,24 +17,26 @@ import java.util.Date;
  */
 public class PdfUtils {
 
-    public static void gerarEVisualizarPDF(String dataHora, String quemPagou, String quemRecebeu, String valor, String type, Long id) throws ParseException {
+    public static void gerarEVisualizarPDF(String dataHora, String quemPagou, String quemRecebeu, String valor, String type, Long id) {
         try {
             // Criar um novo documento PDF
             PdfDocument pdf = new PdfDocument(new PdfWriter("arquivo.pdf"));
-             Document document = new Document(pdf, PageSize.A6);
+            Document document = new Document(pdf, PageSize.A6);
 
-            Date dataHoraFormatada = parsearDataHora(dataHora);
-            SimpleDateFormat formatoSaida = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            LocalDateTime dataHoraFormatada = parsearDataHora(dataHora);
+            DateTimeFormatter formatoSaida = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+            dataHora = formatoSaida.format(dataHoraFormatada);
             // Adicionar os dados ao PDF
             document.add(new Paragraph("------------------FOURBANK------------------"));
-            document.add(new Paragraph("Data e Hora: " + formatoSaida.format(dataHoraFormatada)));
+            document.add(new Paragraph("Data e Hora: " + dataHora));
             document.add(new Paragraph("_________________________________"));
-            document.add(new Paragraph("ID da transação: "+id));
+            document.add(new Paragraph("ID da transação: " + id));
             document.add(new Paragraph("_________________________________"));
             document.add(new Paragraph("Quem Pagou: " + quemPagou));
             document.add(new Paragraph("Quem Recebeu: " + quemRecebeu));
             document.add(new Paragraph("_________________________________"));
-            document.add(new Paragraph("Tipo de transação: "+type));
+            document.add(new Paragraph("Tipo de transação: " + type));
             document.add(new Paragraph("_________________________________"));
             document.add(new Paragraph("Valor: R$" + valor));
 
@@ -54,9 +52,8 @@ public class PdfUtils {
         }
     }
 
-    private static Date parsearDataHora(String dataHora) throws ParseException {
-        SimpleDateFormat formatoEntrada = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
-        return formatoEntrada.parse(dataHora);
+    private static LocalDateTime parsearDataHora(String dataHora) {
+        return LocalDateTime.parse(dataHora, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS"));
     }
 
     private static void abrirArquivoPDF(String filePath) {
