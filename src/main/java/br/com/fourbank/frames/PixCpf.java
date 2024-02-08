@@ -4,22 +4,28 @@ import br.com.fourbank.models.AccountDestinyModel;
 import br.com.fourbank.models.TransactionPixModel;
 import br.com.fourbank.models.TransactionResponseModel;
 import br.com.fourbank.services.ServiceRequest;
+import br.com.fourbank.utils.MoneyFormat;
 import br.com.fourbank.utils.PdfUtils;
 import br.com.fourbank.utils.SessionExpiry;
+import java.awt.Frame;
 import java.math.BigDecimal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author thiag
  */
-public class PixCpf extends javax.swing.JFrame {
+public class PixCpf extends JDialog {
 
     private ServiceRequest serviceRequest = new ServiceRequest();
-
-    public PixCpf() {
+    private Frame previousFrame;
+    
+    public PixCpf(Frame parent) {
+        super(parent, true);
+        this.previousFrame = parent;
         initComponents();
     }
 
@@ -35,7 +41,6 @@ public class PixCpf extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        fieldValue = new javax.swing.JFormattedTextField();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -43,6 +48,7 @@ public class PixCpf extends javax.swing.JFrame {
         fieldDestiny = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         fieldKey = new javax.swing.JFormattedTextField();
+        fieldValue = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -51,9 +57,6 @@ public class PixCpf extends javax.swing.JFrame {
         jPanel1.setLayout(null);
 
         jPanel2.setOpaque(false);
-
-        fieldValue.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        fieldValue.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("CPF");
@@ -89,14 +92,18 @@ public class PixCpf extends javax.swing.JFrame {
         }
         fieldKey.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
+        fieldValue.setForeground(new java.awt.Color(51, 51, 51));
+        fieldValue.setFormatterFactory(MoneyFormat.getMoneyFormatter());
+        fieldValue.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(fieldValue, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addComponent(fieldValue, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addGap(26, 26, 26))
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -133,10 +140,10 @@ public class PixCpf extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fieldValue, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(68, Short.MAX_VALUE))
+                    .addComponent(fieldValue, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel2);
@@ -166,6 +173,7 @@ public class PixCpf extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Sessão Expirada!", null, JOptionPane.INFORMATION_MESSAGE);
             new LoginFrame().setVisible(true);
             this.dispose();
+            this.previousFrame.dispose();
             return false;
         }
         return true;
@@ -192,8 +200,9 @@ public class PixCpf extends javax.swing.JFrame {
         try {
             if (session()) {
                 String key = fieldKey.getText().replace(".", "").replace("-", ""); 
+                double valuePix = MoneyFormat.getValue(fieldValue.getText());
                 var pixTransaction = new TransactionPixModel(
-                        new BigDecimal(fieldValue.getText().replace(",", ".")).doubleValue(),
+                        valuePix,
                         key);
                 var result = serviceRequest.transactionByPix(pixTransaction);
                 if (Integer.parseInt(result.get("status").toString()) != 200) {
@@ -211,54 +220,6 @@ public class PixCpf extends javax.swing.JFrame {
         }
 
     }// GEN-LAST:event_jButton2ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-        // (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the default
-         * look and feel.
-         * For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PixCpf.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PixCpf.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PixCpf.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PixCpf.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        // </editor-fold>
-        // </editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PixCpf().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel fieldDestiny;

@@ -413,7 +413,8 @@ public class MenuPixFrame extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         try {
             if (session()) {
-                new SaveKeyFrame().setVisible(true);
+                var saveKeyFrame = new SaveKeyFrame(this);
+                saveKeyFrame.setVisible(true);
             } else {
                 this.dispose();
             }
@@ -425,7 +426,8 @@ public class MenuPixFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             if (session()) {
-                new PixEmail().setVisible(true);
+                var pixEmailFrame = new PixEmail(this);
+                pixEmailFrame.setVisible(true);
             } else {
                 this.dispose();
             }
@@ -437,7 +439,8 @@ public class MenuPixFrame extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
             if (session()) {
-                new PixCpf().setVisible(true);
+               var pixCpfFrame = new PixCpf(this);
+               pixCpfFrame.setVisible(true);
             } else {
                 this.dispose();
             }
@@ -449,7 +452,8 @@ public class MenuPixFrame extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
             if (session()) {
-                new PixPhone().setVisible(true);
+                var pixPhoneFrame = new PixPhone(this);
+                pixPhoneFrame.setVisible(true);
             } else {
                 this.dispose();
             }
@@ -461,7 +465,8 @@ public class MenuPixFrame extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
             if (session()) {
-                new PixRandom().setVisible(true);
+                var pixRandomFrame = new PixRandom(this);
+                pixRandomFrame.setVisible(true);
             } else {
                 this.dispose();
             }

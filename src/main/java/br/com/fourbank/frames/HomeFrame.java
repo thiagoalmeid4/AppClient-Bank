@@ -4,7 +4,6 @@ import br.com.fourbank.models.AccountInfo;
 import br.com.fourbank.models.TransactionHistoryModel;
 import br.com.fourbank.services.ServiceRequest;
 import br.com.fourbank.utils.SessionExpiry;
-import cache.io.Cache;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.awt.Component;
@@ -19,8 +18,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 /**
@@ -462,7 +459,8 @@ public class HomeFrame extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
             if(session()){
-                new TedFrame().setVisible(true);
+                var tedFrame = new TedFrame(this);
+                tedFrame.setVisible(true);
             }
         } catch (Exception ex) {
             Logger.getLogger(HomeFrame.class.getName()).log(Level.SEVERE, null, ex);

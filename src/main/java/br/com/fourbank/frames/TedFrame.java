@@ -1,25 +1,30 @@
 package br.com.fourbank.frames;
 
-import br.com.fourbank.models.TransactionPixModel;
 import br.com.fourbank.models.TransactionResponseModel;
 import br.com.fourbank.models.TransactionTedModel;
 import br.com.fourbank.services.ServiceRequest;
+import br.com.fourbank.utils.MoneyFormat;
 import br.com.fourbank.utils.PdfUtils;
 import br.com.fourbank.utils.SessionExpiry;
-import java.math.BigDecimal;
+import java.awt.Frame;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author thiag
  */
-public class TedFrame extends javax.swing.JFrame {
+public class TedFrame extends JDialog{
 
     private ServiceRequest serviceRequest = new ServiceRequest();
 
-    public TedFrame() {
+    private Frame previousFrame;
+    
+    public TedFrame(Frame parent) {
+        super(parent, true);
+        this.previousFrame = parent;
         initComponents();
     }
 
@@ -99,7 +104,7 @@ public class TedFrame extends javax.swing.JFrame {
         });
 
         fieldValue.setForeground(new java.awt.Color(51, 51, 51));
-        fieldValue.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        fieldValue.setFormatterFactory(MoneyFormat.getMoneyFormatter());
         fieldValue.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -187,8 +192,9 @@ public class TedFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             if (session()) {
+                double valuePix = MoneyFormat.getValue(fieldValue.getText());
                 var tedTransaction = new TransactionTedModel(fieldAgency.getText(),fieldAccount.getText()+FieldDigit.getText(),
-                Double.parseDouble(fieldValue.getText().replace(',','.')));
+                valuePix);
                 var result = serviceRequest.transactionByTed(tedTransaction);
                 if (Integer.parseInt(result.get("status").toString()) != 200) {
                     JOptionPane.showMessageDialog(null, result.get("erro"), null, JOptionPane.INFORMATION_MESSAGE);
@@ -210,45 +216,12 @@ public class TedFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Sessão Expirada!", null, JOptionPane.INFORMATION_MESSAGE);
             new LoginFrame().setVisible(true);
             this.dispose();
+            this.previousFrame.dispose();
             return false;
         }
         return true;
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TedFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TedFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TedFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TedFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TedFrame().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField FieldDigit;

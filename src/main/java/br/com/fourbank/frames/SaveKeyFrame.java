@@ -2,20 +2,23 @@ package br.com.fourbank.frames;
 
 import br.com.fourbank.services.ServiceRequest;
 import br.com.fourbank.utils.SessionExpiry;
+import java.awt.Frame;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import org.eclipse.persistence.sessions.Session;
-
 /**
  *
  * @author thiag
  */
-public class SaveKeyFrame extends javax.swing.JFrame {
+public class SaveKeyFrame extends JDialog {
 
     private ServiceRequest serviceRequest = new ServiceRequest();
-
-    public SaveKeyFrame() {
+    private Frame previousFrame;
+    
+    public SaveKeyFrame(Frame parent) {
+        super(parent, true);
+        this.previousFrame = parent;
         initComponents();
     }
 
@@ -103,52 +106,14 @@ public class SaveKeyFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, result, result, JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null, "Sessão Expirada!", null, JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+                this.previousFrame.dispose();
             }
 
         } catch (Exception ex) {
             Logger.getLogger(SaveKeyFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }// GEN-LAST:event_jButton1ActionPerformed
-
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-        // (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the default
-         * look and feel.
-         * For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SaveKeyFrame.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                    ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SaveKeyFrame.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                    ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SaveKeyFrame.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                    ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SaveKeyFrame.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                    ex);
-        }
-        // </editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SaveKeyFrame().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
