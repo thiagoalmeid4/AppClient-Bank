@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 public class ApiRequest {
 
-    private final String url = "http://localhost:8080/api-fourbank";
+    private final String url = "https://fourbankservice.onrender.com/api-fourbank";
 
     private HttpClient client = HttpClient.newHttpClient();
 
