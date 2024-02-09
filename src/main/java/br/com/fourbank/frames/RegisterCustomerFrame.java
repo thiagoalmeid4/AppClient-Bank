@@ -226,29 +226,29 @@ public class RegisterCustomerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel8MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            var customer = new CustomerModel();
-            customer.setName(fieldName.getText().toUpperCase());
-            customer.setCpf(fieldCpf.getText().replace(".", "").replace("-", ""));
-            customer.setDateOfBirth(fieldDate.getText());
-            customer.setEmail(fieldEmail.getText());
-            customer.setPhone(fieldPhone.getText());
-            customer.setPassword(fieldPassword.getText());
+        new LoadingFrame(this).showLoading(() -> {
+            try {
+                var customer = new CustomerModel();
+                customer.setName(fieldName.getText().toUpperCase());
+                customer.setCpf(fieldCpf.getText().replace(".", "").replace("-", ""));
+                customer.setDateOfBirth(fieldDate.getText());
+                customer.setEmail(fieldEmail.getText());
+                customer.setPhone(fieldPhone.getText());
+                customer.setPassword(fieldPassword.getText());
 
-            var result = request.saveCustomer(customer);
+                var result = request.saveCustomer(customer);
 
-            if (Integer.parseInt(result.get("status").toString()) != 201) {
-                JOptionPane.showMessageDialog(null, result.get("erro").toString(), null, JOptionPane.INFORMATION_MESSAGE);
-            }else{
-                new HomeFrame().setVisible(true);
-                this.dispose();
+                if (Integer.parseInt(result.get("status").toString()) != 201) {
+                    JOptionPane.showMessageDialog(null, result.get("erro").toString(), null, JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    new HomeFrame().setVisible(true);
+                    this.dispose();
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(RegisterCustomerFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(RegisterCustomerFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        });
     }//GEN-LAST:event_jButton1ActionPerformed
-
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

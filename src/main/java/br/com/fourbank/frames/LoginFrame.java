@@ -1,4 +1,3 @@
-
 package br.com.fourbank.frames;
 
 import br.com.fourbank.models.AuthModel;
@@ -15,7 +14,7 @@ import javax.swing.JOptionPane;
 public class LoginFrame extends javax.swing.JFrame {
 
     private ServiceRequest request = new ServiceRequest();
-    
+
     /**
      * Creates new form Frame
      */
@@ -65,6 +64,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel3.setText("SENHA");
 
         jButton1.setText("ACESSAR");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -164,21 +164,23 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        var auth = new AuthModel(fieldLogin.getText(), fieldPassword.getText());
-        
-        var result = request.getToken(auth);
-        
-        if(result.equals("ok")){
-            try {
-                new HomeFrame().setVisible(true);
-            } catch (Exception ex) {
-                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+        new LoadingFrame(this).showLoading(() -> {
+            var auth = new AuthModel(fieldLogin.getText(), fieldPassword.getText());
+
+            var result = request.getToken(auth);
+
+            if (result.equals("ok")) {
+                try {
+                    new HomeFrame().setVisible(true);
+                } catch (Throwable ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
+                }
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, result, null, JOptionPane.ERROR_MESSAGE);
             }
-            this.dispose();
-        }else{
-            JOptionPane.showMessageDialog(null, result, null, JOptionPane.ERROR_MESSAGE);
-        }
+        });
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked

@@ -17,6 +17,7 @@ import br.com.fourbank.models.TransactionPixModel;
 import br.com.fourbank.models.TransactionTedModel;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.time.Duration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,7 +32,7 @@ public class ApiRequest {
     private HttpRequest request;
 
     public ApiResponse saveCustomer(CustomerModel customer) {
-
+            
         String requestBody = gson.toJson(customer);
 
         var apiResponse = new ApiResponse();
@@ -40,6 +41,7 @@ public class ApiRequest {
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .uri(URI.create(url.concat("/save-customer")))
                 .setHeader("Content-Type", "application/json")
+                .timeout(Duration.ofSeconds(10))
                 .build();
         try {
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -61,6 +63,7 @@ public class ApiRequest {
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .uri(URI.create(url.concat("/get-token")))
                 .setHeader("Content-Type", "application/json")
+                .timeout(Duration.ofSeconds(10))
                 .build();
         try {
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -81,6 +84,7 @@ public class ApiRequest {
                 .uri(URI.create(url.concat("/save-account")))
                 .setHeader("Content-Type", "application/json")
                 .setHeader("Authorization", token)
+                .timeout(Duration.ofSeconds(10))
                 .build();
         try {
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -103,6 +107,7 @@ public class ApiRequest {
                 .uri(URI.create(url.concat("/account-info")))
                 .setHeader("Content-Type", "application/json")
                 .setHeader("Authorization", token)
+                .timeout(Duration.ofSeconds(10))
                 .build();
         try {
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -123,6 +128,7 @@ public class ApiRequest {
                 .uri(URI.create(url.concat("/save-pix-key?type_key=".concat(typeKey))))
                 .setHeader("Content-Type", "application/json")
                 .setHeader("Authorization", token)
+                .timeout(Duration.ofSeconds(10))
                 .build();
         try {
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -149,6 +155,7 @@ public class ApiRequest {
                 .uri(URI.create(url.concat("/find-account/pix?key=".concat(key))))
                 .setHeader("Content-Type", "application/json")
                 .setHeader("Authorization", token)
+                .timeout(Duration.ofSeconds(10))
                 .build();
         try {
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -171,6 +178,7 @@ public class ApiRequest {
                 .uri(URI.create(url.concat("/transaction/pix")))
                 .setHeader("Content-Type", "application/json")
                 .setHeader("Authorization", token)
+                .timeout(Duration.ofSeconds(10))
                 .build();
         try {
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -191,6 +199,7 @@ public class ApiRequest {
                 .uri(URI.create(url.concat("/transaction/history")))
                 .setHeader("Content-Type", "application/json")
                 .setHeader("Authorization", token)
+                .timeout(Duration.ofSeconds(10))
                 .build();
         try {
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -211,6 +220,7 @@ public class ApiRequest {
                 .uri(URI.create(url.concat("/check-token")))
                 .setHeader("Content-Type", "application/json")
                 .setHeader("Authorization", token)
+                .timeout(Duration.ofSeconds(10))
                 .build();
         try {
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -233,6 +243,7 @@ public class ApiRequest {
                 .uri(URI.create(url.concat("/transaction/ted")))
                 .setHeader("Content-Type", "application/json")
                 .setHeader("Authorization", token)
+                .timeout(Duration.ofSeconds(10))
                 .build();
         try {
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -253,6 +264,7 @@ public class ApiRequest {
                 .uri(URI.create(url.concat("/my-pix-keys")))
                 .setHeader("Content-Type", "application/json")
                 .setHeader("Authorization", token)
+                .timeout(Duration.ofSeconds(10))
                 .build();
         try {
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());

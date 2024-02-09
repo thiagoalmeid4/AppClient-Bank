@@ -390,89 +390,103 @@ public class MenuPixFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        try {
-            if (session()) {
-                initComponentsRequest();
+        new LoadingFrame(this).showLoading(() -> {
+            try {
+                if (session()) {
+                    initComponentsRequest();
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        });
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        try {
-            if (session()) {
-                new HomeFrame().setVisible(true);
-                this.dispose();
+        new LoadingFrame(this).showLoading(() -> {
+            try {
+                if (session()) {
+                    new HomeFrame().setVisible(true);
+                    this.dispose();
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        });
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        try {
-            if (session()) {
-                var saveKeyFrame = new SaveKeyFrame(this);
-                saveKeyFrame.setVisible(true);
-            } else {
-                this.dispose();
+        new LoadingFrame(this).showLoading(() -> {
+            try {
+                if (session()) {
+                    var saveKeyFrame = new SaveKeyFrame(this);
+                    saveKeyFrame.setVisible(true);
+                } else {
+                    this.dispose();
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        });
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            if (session()) {
-                var pixEmailFrame = new PixEmail(this);
-                pixEmailFrame.setVisible(true);
-            } else {
-                this.dispose();
+        new LoadingFrame(this).showLoading(() -> {
+            try {
+                if (session()) {
+                    var pixEmailFrame = new PixEmail(this);
+                    pixEmailFrame.setVisible(true);
+                } else {
+                    this.dispose();
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        });
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try {
-            if (session()) {
-               var pixCpfFrame = new PixCpf(this);
-               pixCpfFrame.setVisible(true);
-            } else {
-                this.dispose();
+        new LoadingFrame(this).showLoading(() -> {
+            try {
+                if (session()) {
+                    var pixCpfFrame = new PixCpf(this);
+                    pixCpfFrame.setVisible(true);
+                } else {
+                    this.dispose();
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        });
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        try {
-            if (session()) {
-                var pixPhoneFrame = new PixPhone(this);
-                pixPhoneFrame.setVisible(true);
-            } else {
-                this.dispose();
+        new LoadingFrame(this).showLoading(() -> {
+            try {
+                if (session()) {
+                    var pixPhoneFrame = new PixPhone(this);
+                    pixPhoneFrame.setVisible(true);
+                } else {
+                    this.dispose();
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        });
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        try {
-            if (session()) {
-                var pixRandomFrame = new PixRandom(this);
-                pixRandomFrame.setVisible(true);
-            } else {
-                this.dispose();
+        new LoadingFrame(this).showLoading(() -> {
+            try {
+                if (session()) {
+                    var pixRandomFrame = new PixRandom(this);
+                    pixRandomFrame.setVisible(true);
+                } else {
+                    this.dispose();
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(MenuPixFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        });
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**

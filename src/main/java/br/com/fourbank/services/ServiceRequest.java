@@ -148,12 +148,16 @@ public class ServiceRequest {
             ErrModel err = (ErrModel) ConvertJson.execute(json, ErrModel.class);
             return err.getMessage();
         } catch (Exception e) {
-            ErrModel[] err = (ErrModel[]) ConvertJson.execute(json, ErrModel[].class);
-            String message = "\n";
-            for (ErrModel error : err) {
-                message += error.getMessage() + "\n";
+            try {
+                ErrModel[] err = (ErrModel[]) ConvertJson.execute(json, ErrModel[].class);
+                String message = "\n";
+                for (ErrModel error : err) {
+                    message += error.getMessage() + "\n";
+                }
+                return message;
+            } catch (RuntimeException re) {
+                return "Sem serviço";
             }
-            return message;
         }
     }
 }
