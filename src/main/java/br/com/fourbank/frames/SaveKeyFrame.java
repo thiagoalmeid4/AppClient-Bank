@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author thiag
@@ -15,7 +16,7 @@ public class SaveKeyFrame extends JDialog {
 
     private ServiceRequest serviceRequest = new ServiceRequest();
     private Frame previousFrame;
-    
+
     public SaveKeyFrame(Frame parent) {
         super(parent, true);
         this.previousFrame = parent;
@@ -98,21 +99,24 @@ public class SaveKeyFrame extends JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            if (SessionExpiry.execute()) {
-                var result = serviceRequest
-                        .savePixKey(typesKey.getSelectedItem().toString().replaceAll("ALEATÓRIA", "RANDOM")
-                                .replaceAll("CELULAR", "PHONE"));
-                JOptionPane.showMessageDialog(null, result, result, JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Sessão Expirada!", null, JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
-                this.previousFrame.dispose();
-            }
+        new LoadingFrame(previousFrame).showLoading(() -> {
+            try {
+                if (SessionExpiry.execute()) {
+                    var result = serviceRequest
+                            .savePixKey(typesKey.getSelectedItem().toString().replaceAll("ALEATÓRIA", "RANDOM")
+                                    .replaceAll("CELULAR", "PHONE"));
+                    JOptionPane.showMessageDialog(null, result, result, JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Sessão Expirada!", null, JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+                    this.previousFrame.dispose();
+                }
 
-        } catch (Exception ex) {
-            Logger.getLogger(SaveKeyFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            } catch (Exception ex) {
+                Logger.getLogger(SaveKeyFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+
     }// GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

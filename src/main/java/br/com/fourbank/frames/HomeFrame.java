@@ -431,24 +431,28 @@ public class HomeFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        try {
-            if (session()) {
-                initComponentsRequests();
+        new LoadingFrame(this).showLoading(() -> {
+            try {
+                if (session()) {
+                    initComponentsRequests();
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(HomeFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(HomeFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        });
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            if (session()) {
-                new MenuPixFrame().setVisible(true);
-                this.dispose();
+        new LoadingFrame(this).showLoading(() -> {
+            try {
+                if (session()) {
+                    new MenuPixFrame().setVisible(true);
+                    this.dispose();
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(HomeFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(HomeFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        });
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
@@ -457,14 +461,16 @@ public class HomeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        try {
-            if(session()){
-                var tedFrame = new TedFrame(this);
-                tedFrame.setVisible(true);
+        new LoadingFrame(this).showLoading(() -> {
+            try {
+                if (session()) {
+                    var tedFrame = new TedFrame(this);
+                    tedFrame.setVisible(true);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(HomeFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(HomeFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        });
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void main(String args[]) {

@@ -22,7 +22,7 @@ public class PixCpf extends JDialog {
 
     private ServiceRequest serviceRequest = new ServiceRequest();
     private Frame previousFrame;
-    
+
     public PixCpf(Frame parent) {
         super(parent, true);
         this.previousFrame = parent;
@@ -102,27 +102,25 @@ public class PixCpf extends JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(fieldValue, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(26, 26, 26))
-            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(fieldDestiny, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(fieldKey)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                        .addComponent(fieldValue, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(26, 26, 26))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(fieldKey, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1))
                             .addComponent(jLabel3)
                             .addComponent(label)
-                            .addComponent(jLabel2))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel2)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(fieldDestiny, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,45 +178,48 @@ public class PixCpf extends JDialog {
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            if (session()) {
-                var result = serviceRequest.getAccountByPix(fieldKey.getText().replace(".", "").replace("-", ""));
-                if (Integer.parseInt(result.get("status").toString()) != 200) {
-                    JOptionPane.showMessageDialog(null, result.get("erro"), null, JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    AccountDestinyModel account = (AccountDestinyModel) result.get("contaDestino");
-                    fieldDestiny.setText(account.getName());
+        new LoadingFrame(previousFrame).showLoading(() -> {
+            try {
+                if (session()) {
+                    var result = serviceRequest.getAccountByPix(fieldKey.getText().replace(".", "").replace("-", ""));
+                    if (Integer.parseInt(result.get("status").toString()) != 200) {
+                        JOptionPane.showMessageDialog(null, result.get("erro"), null, JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        AccountDestinyModel account = (AccountDestinyModel) result.get("contaDestino");
+                        fieldDestiny.setText(account.getName());
+                    }
                 }
+            } catch (Exception ex) {
+                Logger.getLogger(PixCpf.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(PixCpf.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        });
 
     }// GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton2ActionPerformed
-        try {
-            if (session()) {
-                String key = fieldKey.getText().replace(".", "").replace("-", ""); 
-                double valuePix = MoneyFormat.getValue(fieldValue.getText());
-                var pixTransaction = new TransactionPixModel(
-                        valuePix,
-                        key);
-                var result = serviceRequest.transactionByPix(pixTransaction);
-                if (Integer.parseInt(result.get("status").toString()) != 200) {
-                    JOptionPane.showMessageDialog(null, result.get("erro"), null, JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    TransactionResponseModel transacao = (TransactionResponseModel) result.get("transacao");
-                    PdfUtils.gerarEVisualizarPDF(transacao.getDateTransaction(), transacao.getCustomerNameOrigin(),
-                            transacao.getCustomerNameDestiny(), transacao.getValue().toString(),
-                            transacao.getTypeTransaction(), transacao.getIdTransaction());
-                    this.dispose();
+        new LoadingFrame(previousFrame).showLoading(() -> {
+            try {
+                if (session()) {
+                    String key = fieldKey.getText().replace(".", "").replace("-", "");
+                    double valuePix = MoneyFormat.getValue(fieldValue.getText());
+                    var pixTransaction = new TransactionPixModel(
+                            valuePix,
+                            key);
+                    var result = serviceRequest.transactionByPix(pixTransaction);
+                    if (Integer.parseInt(result.get("status").toString()) != 200) {
+                        JOptionPane.showMessageDialog(null, result.get("erro"), null, JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        TransactionResponseModel transacao = (TransactionResponseModel) result.get("transacao");
+                        PdfUtils.gerarEVisualizarPDF(transacao.getDateTransaction(), transacao.getCustomerNameOrigin(),
+                                transacao.getCustomerNameDestiny(), transacao.getValue().toString(),
+                                transacao.getTypeTransaction(), transacao.getIdTransaction());
+                        this.dispose();
+                    }
                 }
+            } catch (Exception ex) {
+                Logger.getLogger(PixCpf.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(PixCpf.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        });
     }// GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
